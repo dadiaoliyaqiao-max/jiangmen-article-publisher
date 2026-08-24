@@ -1,0 +1,39 @@
+# Local manuscripts and publishing assets
+local-data/
+assets/
+outputs/
+prepared/
+work/
+qa/
+publishing_html/
+
+# Articles and media stay on the local computer
+*.doc
+*.docx
+*.pdf
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+*.bmp
+*.tif
+*.tiff
+*.mp4
+*.mov
+
+# Local status and credentials
+发布进度.md
+.env
+.env.*
+*.cookie
+*.cookies
+cookies.json
+credentials.json
+secrets.json
+*.token
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+
