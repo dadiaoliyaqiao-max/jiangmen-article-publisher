@@ -81,6 +81,10 @@ When the requested time is outside the native horizon:
 
 For platforms without a native scheduler, such as the observed Zhihu article editor, use the same draft-plus-heartbeat pattern and publish only one mapped article per run.
 
+For a daily Zhihu sequence, store the exact date-to-title and draft-ID mapping in both the continuation prompt and the ignored local tracker. If the user has authorized automatic publication after verification, that standing authorization applies only to the mapped batch. After the management page confirms the day's public article, advance the automation so it cannot wake again until the next mapped date when the user has requested same-day suspension. Delete the automation after the last mapped article is published and verified.
+
+When a pasted Zhihu image fails asynchronously, keep the current draft and inspect the figure state before changing the body. A local `blob:` source, error class, spinner, or `重试` control means the upload is not complete. Retry the existing upload once when the platform offers it, then require a server-hosted URL and the exact caption. Do not paste the full body again to repair one failed image.
+
 ## End-of-run verification
 
 Run one consolidated verification pass instead of reopening each completed editor repeatedly. For every article check:

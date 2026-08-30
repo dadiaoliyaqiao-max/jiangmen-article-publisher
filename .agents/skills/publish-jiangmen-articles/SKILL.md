@@ -43,10 +43,12 @@ For browser automation, interrupted runs, timeouts, or multi-day batches, also r
    - Open a full preview only when those checks disagree or the editor visibly changed formatting.
    - Set the requested date and 20:00 before the final submission.
    - Never click a final `发布` button merely to discover whether scheduling exists.
+   - For a mapped Zhihu batch, publish automatically after all checks only when the user has explicitly granted standing authorization for that batch. Otherwise obtain confirmation before the external publish action.
 7. Record the authoritative result:
    - Capture the platform's success message or content-management row showing title, state, and scheduled time.
    - Update a publication matrix for every article and platform.
    - Keep incomplete work as a draft and report the exact remaining blocker.
+   - Enforce at most one Zhihu publication per mapped calendar day. When the user requests same-day suspension after success, advance the continuation to the next mapped day immediately after verification so no later wakeup can publish or schedule more content that day.
 
 ## Speed rules
 
@@ -68,6 +70,7 @@ For browser automation, interrupted runs, timeouts, or multi-day batches, also r
 - If title, text length, and image count match, continue from cover or scheduling.
 - If the editor is unresponsive, leave it intact, open a fresh management tab, and locate the exact title and platform record ID. Resume the existing record from its edit control; do not create a same-title replacement unless the existing record is proven unrecoverable.
 - Never repeat a paste, save, schedule, or publish action solely because the browser command timed out. First verify the platform's authoritative management row or draft card.
+- Treat a newly pasted Zhihu image as incomplete while it still has a local `blob:` URL, an upload spinner, an error state, or a visible `重试` control. Retry the platform upload once when offered, then confirm a server-hosted image URL before counting it as present.
 - For WeChat, count visible figures that contain images rather than raw internal `img` elements, which may be duplicated by the editor implementation.
 - If a native scheduler is unavailable, save a complete draft and create a one-time Codex automation for the requested time. Tell the user the computer and Codex must be available for a local continuation.
 - If a final publish happens early or unexpectedly, stop. Report it immediately; do not delete or retract the article without explicit approval.

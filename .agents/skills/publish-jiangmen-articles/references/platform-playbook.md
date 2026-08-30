@@ -50,11 +50,15 @@ Before opening platform editors:
 ## Zhihu
 
 - Paste the complete rich-text body once and upload the cover separately.
-- Verify body figure/image count before leaving the editor.
+- Before editing, compare the exact title against both the content-management page and the local tracker. Resume the existing draft ID when one exists; do not create a same-title replacement.
+- Verify the exact title, first and last paragraphs, expected body figure count, every visible caption, independent cover, and autosave state before publishing.
+- Do not count an image as uploaded while its source is still `blob:`, the image shows an upload spinner/error, or the editor offers `重试`. Use the platform retry once when available and require a server-hosted image URL afterward.
 - The current article editor may publish immediately when `发布` is clicked and may not expose a native scheduler. Inspect visible controls first.
 - When no scheduler exists, save the finished article as a draft and create a one-time Codex continuation for the requested time. Do not click `发布` as a test.
-- Use an explicit date-to-draft mapping in the continuation and publish exactly one mapped article per run.
-- After publication, verify the public URL and expected figure count before updating the tracker.
+- Use an explicit date-to-draft mapping in the continuation and publish at most one mapped article per Asia/Shanghai calendar day.
+- If the user has explicitly granted standing authorization for the mapped batch, publish automatically once every verification check passes. Scope that authorization to the named batch and dates; otherwise obtain action-time confirmation.
+- After publication, verify the exact management-page row, public URL/article ID, and expected figure count before updating the tracker. A public article page alone is not a substitute for the management-page check.
+- When the user requests same-day suspension after a successful publication, move the continuation's next eligible run to the following mapped day immediately after verification. Do not use later same-day wakeups for another article or unrelated scheduler follow-up.
 
 ## Minimal verification
 
