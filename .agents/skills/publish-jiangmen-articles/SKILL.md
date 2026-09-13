@@ -22,8 +22,13 @@ For browser automation, interrupted runs, timeouts, or multi-day batches, also r
    - When a publish manifest exists, run `py -3 scripts/validate_publish_batch.py --manifest <path>` on Windows (or `python3 ...` elsewhere) before opening any platform editor.
 2. Prepare one canonical rich-text稿 per article:
    - Keep the approved wording and paragraph order.
+   - Separate publishable正文 from author notes, image instructions, review comments, and internal checklists. Never paste those internal instructions into a platform editor.
    - Insert each image directly after its corresponding paragraph or section.
    - Put a concise `▲ 图片内容说明` immediately below each image.
+   - When an article names a residential development, prefer verified design or completion images from that development. Do not imply an unverified project source.
+   - Check the local image-usage ledger or hashes and avoid reusing images from earlier batches when the user requires fresh visuals.
+   - Keep approved source files at their original pixel dimensions and bytes. Do not locally downscale, recompress, or re-encode them for convenience. If an ASCII filename copy is needed for upload reliability, verify that its hash matches the source.
+   - Use only a visually text-free image as the article cover. Reject any candidate containing title text, labels, promotional copy, text watermarks, or other visible words, and select another approved image before saving, scheduling, or publishing.
    - Do not write “AI生成” or negative disclaimers such as “非某项目现场/实景” in the visible image caption. Use a neutral, accurate description of what the image shows without claiming an unverified project source.
    - Do not include exact room numbers in captions.
    - Do not suppress a platform-required AI-content declaration when it genuinely applies.
@@ -36,10 +41,12 @@ For browser automation, interrupted runs, timeouts, or multi-day batches, also r
    - Fill the title field separately.
    - Copy the entire approved rich-text body once and paste it into the editor once.
    - Reuse the same rich clipboard payload across all platform tabs until every body is pasted.
-   - Upload or select the cover separately, normally using the approved first image unless a dedicated cover is supplied.
+   - Upload or select the cover separately. Use the approved first image only after visually confirming that it contains no text; otherwise choose another approved text-free image.
    - Add platform topics only when they are accurate; prefer `江门家居`, `江门装修`, `江门全屋定制`, or `家居`.
 6. Verify cheaply, then schedule:
    - Check exact title, body image count, caption count, approximate text length, first paragraph, and final paragraph.
+   - Visually inspect the selected cover and confirm that it contains no title text, labels, promotional copy, text watermarks, or other visible words.
+   - Confirm each uploaded body image has finished processing and uses a server-hosted URL. When the platform exposes dimensions, record `naturalWidth` and `naturalHeight`; do not accept an obviously blurred thumbnail as the final body image.
    - Open a full preview only when those checks disagree or the editor visibly changed formatting.
    - Set the requested date and 20:00 before the final submission.
    - Never click a final `发布` button merely to discover whether scheduling exists.
@@ -49,6 +56,7 @@ For browser automation, interrupted runs, timeouts, or multi-day batches, also r
    - Update a publication matrix for every article and platform.
    - Keep incomplete work as a draft and report the exact remaining blocker.
    - Enforce at most one Zhihu publication per mapped calendar day. When the user requests same-day suspension after success, advance the continuation to the next mapped day immediately after verification so no later wakeup can publish or schedule more content that day.
+   - A finite mapped Zhihu batch normally ends after its final verified publication. If the user explicitly requests an ongoing daily Zhihu workflow, keep the automation active on empty days and consider only new complete drafts recorded in the local manifest or tracker; never sweep every titled historical draft.
 
 ## Speed rules
 
@@ -63,6 +71,7 @@ For browser automation, interrupted runs, timeouts, or multi-day batches, also r
 - Avoid local file uploads for body images when rich-text paste successfully transfers them; reserve uploads for covers or failed images.
 - Do not refresh editors that autosave unless the current state is confirmed recoverable.
 - Treat a CAPTCHA as a single blocking event: obtain the user's approval, solve it once, and continue without reloading.
+- If the browser controller rejects a domain under a site-safety policy, stop automated access for that platform and mark it `需用户处理`. Do not try another browser, Windows-level control, raw CDP, address-bar scripts, or indirect commands as a workaround.
 
 ## Failure recovery
 

@@ -6,6 +6,7 @@ prepared/
 work/
 qa/
 publishing_html/
+browser-exports/
 
 # Articles and media stay on the local computer
 *.doc
@@ -21,6 +22,8 @@ publishing_html/
 *.tiff
 *.mp4
 *.mov
+*.html
+*.htm
 
 # Local status and credentials
 发布进度.md
@@ -32,6 +35,13 @@ cookies.json
 credentials.json
 secrets.json
 *.token
+*.jsonl
+*.tsv
+*.csv
+*.pem
+*.key
+*.pfx
+*.p12
 
 # OS/editor files
 .DS_Store

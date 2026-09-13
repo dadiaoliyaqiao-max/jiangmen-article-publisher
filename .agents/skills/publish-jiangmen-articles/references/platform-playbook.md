@@ -4,7 +4,7 @@
 
 Create a matrix with one row per article and columns for title, target date, body image count, cover, Toutiao, WeChat, Baijiahao, Zhihu, and Sohu. Use it as the only progress tracker.
 
-The canonical body must already contain text, inline images, and visible captions in final order. Keep the title and cover outside the body.
+The canonical body must already contain text, inline images, and visible captions in final order. Keep the title and cover outside the body. Every cover must be visually text-free; replace any candidate containing title text, labels, promotional copy, text watermarks, or other visible words before saving, scheduling, or publishing.
 
 Before opening platform editors:
 
@@ -12,6 +12,8 @@ Before opening platform editors:
 - Inspect every platform management page for the exact title and current state.
 - Freeze the title/date/platform mapping for the run.
 - Use the dedicated Chrome controller for logged-in Chrome sessions and keep one clean management tab plus one current editor tab.
+- Compare candidate-image hashes with the local usage ledger when available. For a named development, verify the chosen design or completion images belong to that development.
+- Upload approved source files without local resizing or recompression. Keep the original file untouched and separately record any dimensions returned by the platform.
 
 ## Toutiao
 
@@ -28,13 +30,13 @@ Before opening platform editors:
 - Prefer rich clipboard paste over automated Word import when local file selection is denied or unstable.
 - Wait for image processing and autosave before inspecting the draft list.
 - Verify visible `figure` elements containing images; do not use the editor's raw internal `img` count.
-- Choose the approved first正文图片 with `从正文选择`, save explicitly, then verify the draft card has a cover and no `内容不完整` warning.
+- Choose the approved first正文图片 with `从正文选择` only after visually confirming that it contains no text; otherwise select another approved text-free image. Save explicitly, then verify the draft card has a cover and no `内容不完整` warning.
 - Record the WeChat `appmsgid` in tracker notes when visible.
 
 ## Baijiahao
 
 - Paste the complete rich-text body into the editor iframe once.
-- Choose a cover from正文图片 when the approved first image is suitable; otherwise upload the dedicated cover.
+- Choose a cover from正文图片 only when the selected image is visually text-free; otherwise upload another approved text-free cover.
 - Use the native `定时发布` dialog and set date, hour `20`, minute `0`.
 - Treat `提交成功，正在审核中` as the authoritative submission result after the time was set.
 
@@ -42,7 +44,7 @@ Before opening platform editors:
 
 - Paste the complete rich-text body into `.ql-editor` once.
 - Fill an accurate summary separately.
-- Prefer the first正文图片 as the cover to avoid a second upload.
+- Prefer the first正文图片 as the cover only when it is visually text-free; otherwise use another approved text-free image.
 - Use the native `定时发布` dialog and verify the content-management row shows `定时发布` with the exact date/time.
 - Inspect the scheduler's current horizon before choosing a date. If the requested time is unavailable, keep the complete draft and schedule a follow-up when the exact requested time becomes selectable; never substitute the nearest available time.
 - Do not overwrite the user's unrelated historical draft.
@@ -51,13 +53,14 @@ Before opening platform editors:
 
 - Paste the complete rich-text body once and upload the cover separately.
 - Before editing, compare the exact title against both the content-management page and the local tracker. Resume the existing draft ID when one exists; do not create a same-title replacement.
-- Verify the exact title, first and last paragraphs, expected body figure count, every visible caption, independent cover, and autosave state before publishing.
+- Verify the exact title, first and last paragraphs, expected body figure count, every visible caption, a visually text-free independent cover, and autosave state before publishing.
 - Do not count an image as uploaded while its source is still `blob:`, the image shows an upload spinner/error, or the editor offers `重试`. Use the platform retry once when available and require a server-hosted image URL afterward.
 - The current article editor may publish immediately when `发布` is clicked and may not expose a native scheduler. Inspect visible controls first.
 - When no scheduler exists, save the finished article as a draft and create a one-time Codex continuation for the requested time. Do not click `发布` as a test.
 - Use an explicit date-to-draft mapping in the continuation and publish at most one mapped article per Asia/Shanghai calendar day.
 - If the user has explicitly granted standing authorization for the mapped batch, publish automatically once every verification check passes. Scope that authorization to the named batch and dates; otherwise obtain action-time confirmation.
 - After publication, verify the exact management-page row, public URL/article ID, and expected figure count before updating the tracker. A public article page alone is not a substitute for the management-page check.
+- For an explicitly authorized ongoing daily workflow, publish at most one eligible draft per day and keep the continuation active when no eligible draft exists. Eligibility requires a local manifest/tracker entry and every verification check; a non-empty title alone is insufficient.
 - When the user requests same-day suspension after a successful publication, move the continuation's next eligible run to the following mapped day immediately after verification. Do not use later same-day wakeups for another article or unrelated scheduler follow-up.
 
 ## Minimal verification
@@ -68,8 +71,9 @@ For each pasted body, verify:
 2. Expected image count.
 3. Every image is followed by its `▲` caption.
 4. First and last paragraphs match the canonical稿.
-5. Cover is present.
-6. Final status and time match the matrix.
+5. Cover is present and visually contains no title text, labels, promotional copy, text watermarks, or other visible words.
+6. Uploaded body images have completed processing and are not obvious thumbnail or error versions; record server dimensions when exposed.
+7. Final status and time match the matrix.
 
 Only run a full preview when one of these checks fails.
 

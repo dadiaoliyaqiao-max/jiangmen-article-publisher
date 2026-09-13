@@ -62,7 +62,7 @@ Prefer this path over Word import when automated local-file selection is unavail
 - Create or resume exactly one draft per title.
 - After the full-body paste, wait for autosave and verify from a fresh draft-list tab.
 - In the editor, verify the number of `figure` elements that each contain an image. Do not rely on raw internal `img` count because WeChat may maintain duplicate implementation images.
-- Set the cover separately with `从正文选择`, normally choosing the approved first image.
+- Set the cover separately with `从正文选择`, choosing the approved first image only when it is visually text-free; otherwise select another approved text-free image.
 - Save explicitly, then verify the draft card has a non-empty cover and does not contain `内容不完整`.
 - Never click `发表` for a draft-only request.
 - If clicking a draft title opens `about:blank`, hover the exact draft card and use its visible `编辑` control instead.
@@ -83,7 +83,26 @@ For platforms without a native scheduler, such as the observed Zhihu article edi
 
 For a daily Zhihu sequence, store the exact date-to-title and draft-ID mapping in both the continuation prompt and the ignored local tracker. If the user has authorized automatic publication after verification, that standing authorization applies only to the mapped batch. After the management page confirms the day's public article, advance the automation so it cannot wake again until the next mapped date when the user has requested same-day suspension. Delete the automation after the last mapped article is published and verified.
 
+If the user explicitly requests a permanent daily Zhihu workflow, do not delete the continuation after one batch. Keep it active on empty days and only add drafts that are complete and registered in the ignored local manifest or tracker. Do not infer that every historical draft with a title is approved for publication.
+
 When a pasted Zhihu image fails asynchronously, keep the current draft and inspect the figure state before changing the body. A local `blob:` source, error class, spinner, or `重试` control means the upload is not complete. Retry the existing upload once when the platform offers it, then require a server-hosted URL and the exact caption. Do not paste the full body again to repair one failed image.
+
+## Image fidelity
+
+- Preserve the approved source file and its original pixel dimensions.
+- Do not downscale, recompress, or overwrite the source merely to satisfy an upload workflow.
+- If a platform rejects a file because of size, choose another approved full-quality source or obtain the user's approval for a derived upload copy. Keep the source unchanged and record the derivation.
+- When the platform exposes the final image URL, check its natural dimensions. Treat a visibly blurred or thumbnail-sized result as incomplete.
+- Platform-side compression is a recorded platform outcome, not permission to replace the local master with the compressed copy.
+
+## Site-safety refusal
+
+When the browser controller explicitly rejects a platform domain under a site-safety policy:
+
+1. Stop automated access to that platform.
+2. Record the exact refusal and mark the article-platform pairs `需用户处理`.
+3. Continue other allowed platforms independently.
+4. Do not retry through another browser, Windows-level control, raw CDP, address-bar scripts, or indirect commands.
 
 ## End-of-run verification
 
@@ -93,7 +112,7 @@ Run one consolidated verification pass instead of reopening each completed edito
 - expected figure/image count;
 - every approved caption;
 - first and last paragraphs;
-- cover present;
+- cover present and visually text-free;
 - final platform state and exact time;
 - platform record ID when available.
 
